@@ -41,7 +41,7 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setViewModelFactory()
-        progressBar = findViewById(R.id.progress_bar)
+        progressBar = findViewById(R.id.register_progress_bar)
         setAction()
     }
 
