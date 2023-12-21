@@ -3,6 +3,8 @@ package com.puitika.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import com.google.gson.JsonParser
+import com.google.gson.annotations.SerializedName
 import com.puitika.data.dummy.Event
 import com.puitika.data.local.AccountPreference
 import com.puitika.data.pref.UserModel
@@ -57,6 +59,22 @@ class PuitikaRepository(
                 emit(Result.Success(loginRes))
             }
             else emit(Result.Error(loginRes.message))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun loginViaGoogle(data:String): LiveData<Result<LoginResponse>> = liveData{
+        emit(Result.Loading)
+        try {
+            val response = JsonParser.parseString(data).asJsonObject;
+            val bioRes = apiService.getBiodata( response.get("apikey").asString)
+            pref.saveSession(UserModel(email = bioRes.email, username = bioRes.username, api = response.get("apikey").asString))
+            emit(Result.Success(LoginResponse(
+                response.get("apikey").toString(),
+                response.get("message").toString(),
+                response.get("status").toString()
+            )))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }

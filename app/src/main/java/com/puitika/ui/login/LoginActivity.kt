@@ -1,5 +1,6 @@
 package com.puitika.ui.login
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -85,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
             }
             ivGoogle.setOnClickListener {
-                showToast(this@LoginActivity, "Coming Soon!")
+                handleGoogleSignIn()
             }
             ivX.setOnClickListener {
                 showToast(this@LoginActivity, "Coming Soon!")
@@ -93,6 +94,51 @@ class LoginActivity : AppCompatActivity() {
             ivFacebook.setOnClickListener {
                 showToast(this@LoginActivity, "Coming Soon!")
             }
+        }
+    }
+
+    private fun handleGoogleSignIn(){
+        val intent = Intent(this, GoogleSignIn::class.java)
+        startActivityForResult(intent,1)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                val data  = data?.getStringExtra("data")!!;
+                viewModel.loginViaGoogle(data).observe(this) { result ->
+                    when (result) {
+                        is Result.Loading -> {
+                            showLoadingDialog(true)
+                        }
+
+                        is Result.Success -> {
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                showLoadingDialog(false)
+                                showCustomDialog("You are logged in", true)
+                                Handler(Looper.getMainLooper()).postDelayed({
+                                    val intent = Intent(this, MainActivity::class.java)
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    intent.putExtra("fromLogin", true)
+                                    startActivity(intent)
+                                }, 2000)
+                            }, 1000)
+                        }
+
+
+                        is Result.Error -> {
+                            showLoadingDialog(false)
+                            showCustomDialog(result.data, false)
+                        }
+
+                        else -> {}
+                    }
+                }
+
+            }
+
         }
     }
 
