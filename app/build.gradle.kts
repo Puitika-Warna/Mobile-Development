@@ -4,6 +4,7 @@ plugins {
     id("kotlin-parcelize")
 }
 
+
 android {
     namespace = "com.puitika"
     compileSdk = 34
@@ -61,6 +62,12 @@ android {
 }
 
 dependencies {
+    val geckoviewChannel = "beta"
+    val geckoviewVersion = "122.0.20231220091547"
+
+    implementation ("org.mozilla.geckoview:geckoview-${geckoviewChannel}:${geckoviewVersion}")
+    implementation ("com.google.code.gson:gson:2.10.1")
+
     implementation("com.etebarian:meow-bottom-navigation:1.2.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.21")
     //circle avatar

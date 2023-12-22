@@ -24,6 +24,12 @@ class LoginViewModel(private val repository: PuitikaRepository) : ViewModel() {
             )
         }
     }
+
+    fun loginViaGoogle(data:String): LiveData<Result<LoginResponse>> {
+
+        return repository.loginViaGoogle(data)
+    }
+
 }
 
 

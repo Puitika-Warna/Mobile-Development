@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name": "googlesigninextension",
+    "version": "1.0",
+    "description": "GoogleSigninGeckoExtension",
+    "browser_specific_settings": {
+      "gecko": {
+        "id": "googlesignin@ihsan.com"
+      }
+    },
+    "content_scripts": [
+      {
+        "matches": ["*://*.puitika.my.id/*"],
+        "js": ["messaging.js"]
+      }
+    ],
+    "permissions": [
+      "nativeMessaging",
+      "nativeMessagingFromContent",
+      "geckoViewAddons"
+    ]
+  }

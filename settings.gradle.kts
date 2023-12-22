@@ -12,6 +12,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         jcenter()
+        maven {
+            setUrl("https://maven.mozilla.org/maven2/")
+        }
     }
 }
 

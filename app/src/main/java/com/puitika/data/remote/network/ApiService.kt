@@ -30,6 +30,7 @@ interface ApiService {
     suspend fun login(@Body body: LoginRequest) : LoginResponse
 
     @GET("/me")
+    @Headers("Accept: application/json")
     suspend fun getBiodata(@Header("ApiKey") apiKey: String): BiodataResponse
 
     @GET("/region")
