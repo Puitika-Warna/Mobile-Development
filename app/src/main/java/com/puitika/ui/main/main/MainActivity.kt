@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.etebarian.meowbottomnavigation.MeowBottomNavigation
+//import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.puitika.R
 import com.puitika.databinding.ActivityMainBinding
 import com.puitika.factory.ViewModelFactory
@@ -33,11 +33,11 @@ class MainActivity : AppCompatActivity() {
         setViewModelFactory()
 
         viewModel.getSession().observe(this) {
-            if (!it.isLogin) {
-                val loginIntent = Intent(this, LoginActivity::class.java)
-                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(loginIntent)
-            }
+//            if (!it.isLogin) {
+//                val loginIntent = Intent(this, LoginActivity::class.java)
+//                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                startActivity(loginIntent)
+//            }
         }
         val fromPage = intent.getIntExtra(FROM_PAGE, 0)
         if (fromPage!=0){
@@ -49,37 +49,48 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNav(navigation: Int = 1) {
-        with(binding) {
-            bottomNav.add(MeowBottomNavigation.Model(1, R.drawable.home_ic))
-            bottomNav.add(MeowBottomNavigation.Model(2, R.drawable.scan_ic))
-            bottomNav.add(MeowBottomNavigation.Model(3, R.drawable.event_ic))
-            if (navigation == 1) {
-                bottomNav.show(1)
-                navigation(HomeFragment(), true)
-            } else if (navigation == 2) {
-                bottomNav.show(2)
-                navigation(ScanFragment())
-            } else if(navigation == 3){
-                bottomNav.show(3)
-                navigation(EventFragment())
-            } else {
-                bottomNav.show(1)
-                navigation(HomeFragment(),true)
-            }
-
-            bottomNav.setOnClickMenuListener {
-                when (it.id) {
-                    1 -> navigation(HomeFragment())
-                    2 -> navigation(ScanFragment())
-                    3 -> navigation(EventFragment())
+        navigation(HomeFragment(), false)
+        with(binding){
+            botNav.setOnItemSelectedListener {
+                when(it.itemId) {
+                    R.id.cloth -> navigation(HomeFragment(), false)
+                    R.id.scan -> navigation(ScanFragment(), false)
+                    else -> {}
                 }
-            }
-            bottomNav.setOnReselectListener {
-                when (it.id) {
-                    2 -> navigation(ScanFragment())
-                }
+                true
             }
         }
+//        with(binding) {
+//            bottomNav.add(MeowBottomNavigation.Model(1, R.drawable.home_ic))
+//            bottomNav.add(MeowBottomNavigation.Model(2, R.drawable.scan_ic))
+//            bottomNav.add(MeowBottomNavigation.Model(3, R.drawable.event_ic))
+//            if (navigation == 1) {
+//                bottomNav.show(1)
+//                navigation(HomeFragment(), true)
+//            } else if (navigation == 2) {
+//                bottomNav.show(2)
+//                navigation(ScanFragment())
+//            } else if(navigation == 3){
+//                bottomNav.show(3)
+//                navigation(EventFragment())
+//            } else {
+//                bottomNav.show(1)
+//                navigation(HomeFragment(),true)
+//            }
+//
+//            bottomNav.setOnClickMenuListener {
+//                when (it.id) {
+//                    1 -> navigation(HomeFragment())
+//                    2 -> navigation(ScanFragment())
+//                    3 -> navigation(EventFragment())
+//                }
+//            }
+//            bottomNav.setOnReselectListener {
+//                when (it.id) {
+//                    2 -> navigation(ScanFragment())
+//                }
+//            }
+//        }
     }
 
     private fun navigation(fragment: Fragment, isFromLogin: Boolean = false) {
@@ -98,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             is EventFragment -> 3
             else -> return
         }
-        binding.bottomNav.show(selectedItem, true)
+//        binding.bottomNav.show(selectedItem, true)
     }
 
     override fun onBackPressed() {

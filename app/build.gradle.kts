@@ -55,13 +55,13 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
-        mlModelBinding = true
+//        mlModelBinding = true
     }
 
 }
 
 dependencies {
-    implementation("com.etebarian:meow-bottom-navigation:1.2.0")
+//    implementation("com.etebarian:meow-bottom-navigation:1.2.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.21")
     //circle avatar
     implementation("de.hdodenhof:circleimageview:3.1.0")
